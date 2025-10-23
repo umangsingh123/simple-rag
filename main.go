@@ -22,7 +22,7 @@ func main() {
 	// 1. Initialize Pinecone
 	fmt.Println("1. :::::::::: Setting up Pinecone...::::::::::")
 	pc, err := pinecone.NewClient(pinecone.NewClientParams{
-		ApiKey: "pcsk_7UZEUB_Diuc2pGmu48xStqZ947NjoNm2dSuwB2Tpvvxi5ogQua8uACh8ybuQQGChdAXdbS",
+		ApiKey: "",
 	})
 	if err != nil {
 		log.Fatalf(":::::::::: Failed to create Pinecone client: %v", err)
