@@ -87,8 +87,8 @@ export PINECONE_INDEX_NAME="your_index_name"
 
 ## **::::::::: Run App :::::::::**
 
-```go run main.go
-
+```go
+go run main.go
 ```
 
 ## **::::::::: Ingest Document  :::::::::::**
