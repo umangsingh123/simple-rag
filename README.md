@@ -29,7 +29,7 @@ graph TB
     end
   
     subgraph "External Services"
-        L[Llama Server<br/>localhost:8081]
+        L[OpenAI Server<br/>https://api.openai.com/v1/embeddings]
         P[Pinecone<br/>Vector Database]
     end
   
