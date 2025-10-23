@@ -19,7 +19,7 @@ func NewOpenAIEmbedder() *OpenAIEmbedder {
 	return &OpenAIEmbedder{
 		BaseURL: "https://api.openai.com/v1",
 		Client:  &http.Client{Timeout: 30 * time.Second},
-		APIKey:  "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",
+		APIKey:  "",
 	}
 }
 
