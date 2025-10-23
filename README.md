@@ -64,7 +64,7 @@ graph TB
 1. Client POST /ingest with documents
 2. IngestHandler validates JSON
 3. RAGService processes each document:
-   └── LlamaService converts text → vector
+   └── OpenAiService converts text → vector
    └── PineconeService stores vector + metadata
 4. Returns success response
 
@@ -73,7 +73,7 @@ graph TB
 1. Client POST /query with question
 2. QueryHandler validates JSON
 3. RAGService executes RAG pipeline:
-   └── LlamaService: question → vector
+   └── OpenAIService: question → vector
    └── PineconeService: vector → similar documents
    └── SimpleLLM: documents → answer
 4. Returns answer with sources
