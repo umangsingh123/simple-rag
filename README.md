@@ -23,7 +23,7 @@ graph TB
   
     subgraph "Business Logic Layer"
         RS[RAG Service]
-        LS[Llama Service]
+        LS[OpenAI Service]
         PS[Pinecone Service]
         LLM[Simple LLM]
     end
