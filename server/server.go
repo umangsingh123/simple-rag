@@ -19,6 +19,7 @@ type Server struct {
 	httpServer *http.Server
 }
 
+// Dependency Injection: Takes addr and handler as parameters (separation of concerns)
 func NewServer(addr string, handler http.Handler) *Server {
 	return &Server{
 		httpServer: &http.Server{
@@ -30,6 +31,11 @@ func NewServer(addr string, handler http.Handler) *Server {
 		},
 	}
 }
+
+// Non-blocking start: Uses goroutine to start server in background
+// Error handling: Checks for errors other than http.ErrServerClosed (normal shutdown)
+// Fatal errors: Exits process on serious server failures
+// Immediate return: Allows caller to proceed with other initialization
 
 func (s *Server) Start() error {
 	fmt.Println(":: Starting server on::", s.httpServer.Addr)
@@ -45,6 +51,12 @@ func (s *Server) Start() error {
 	return nil
 }
 
+/*
+- Graceful shutdown: Uses http.Server.Shutdown() which stops accepting new requests and waits for active ones to complete
+- Timeout context: Prevents indefinite waiting during shutdown
+- Proper cleanup: defer cancel() ensures context cancellation
+- Error wrapping: Returns formatted error if shutdown fails
+*/
 func (s *Server) Shutdown(timeout time.Duration) error {
 	fmt.Println(":::::::::: Shutting down server...::::::::::")
 
@@ -59,6 +71,15 @@ func (s *Server) Shutdown(timeout time.Duration) error {
 	return nil
 }
 
+/*
+- Signal handling: Listens for SIGINT (Ctrl+C) and SIGTERM (container shutdown)
+
+- Blocking wait: Stops main goroutine until shutdown signal received
+
+- Graceful termination: Gives active requests 10 seconds to complete
+
+- Emergency exit: Force exits if graceful shutdown fails
+*/
 func (s *Server) WaitForShutdown() {
 	// Wait for interrupt signal
 	signalChan := make(chan os.Signal, 1)

@@ -1,10 +1,10 @@
 package models
 
-// Document represents a piece of text with its vector
+// Document represents a piece of text with its vector embedding
 type Document struct {
 	ID        string    `json:"id"`        // Unique ID for the document
 	Content   string    `json:"content"`   // The actual text content
-	Embedding []float32 `json:"embedding"` // Vector representation (numbers)
+	Embedding []float32 `json:"embedding"` // Vector representation (1536 numbers from OpenAI)
 }
 
 // QueryRequest is what users send when asking questions

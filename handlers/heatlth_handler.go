@@ -6,12 +6,15 @@ import (
 	"time"
 )
 
+// Used to Check Health
+
 type HealthHandler struct{}
 
 func NewHealthHandler() *HealthHandler {
 	return &HealthHandler{}
 }
 
+// This is the implementation of the interface Handler . Initialized as part of the router.go
 func (h *HealthHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)

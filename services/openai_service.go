@@ -33,7 +33,7 @@ func (e *OpenAIEmbedder) CreateEmbedding(text string) ([]float32, error) {
 	req, _ := http.NewRequest("POST", e.BaseURL+"/embeddings", bytes.NewBuffer(jsonData))
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", "Bearer "+e.APIKey)
-
+	//Executes the HTTP request with timeout set in the client
 	resp, err := e.Client.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("OpenAI error: %v", err)
@@ -42,7 +42,7 @@ func (e *OpenAIEmbedder) CreateEmbedding(text string) ([]float32, error) {
 
 	body, _ := io.ReadAll(resp.Body)
 
-	// ✅ Debug line to see actual response if something fails
+	//  Debug line to see actual response if something fails
 	fmt.Println("Embedding API response:", string(body))
 
 	if resp.StatusCode != http.StatusOK {

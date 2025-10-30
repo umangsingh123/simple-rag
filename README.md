@@ -5,9 +5,6 @@ A production-ready Retrieval-Augmented Generation (RAG) system built in Go that 
 ## ::::::::: Architecture Overview ::::::::::
 
 ```mermaid
-
-
-
 graph TB
     subgraph "Client Layer"
         C[Client Apps]
@@ -56,7 +53,6 @@ graph TB
     RS --> M
     LS --> M
     PS --> M
-
 ```
 
 ## ::::::::: Data Ingestion Flow :::::::::
@@ -64,7 +60,7 @@ graph TB
 1. Client POST /ingest with documents
 2. IngestHandler validates JSON
 3. RAGService processes each document:
-   └── OpenAiService converts text → vector
+   └── OpenAIService converts text → vector
    └── PineconeService stores vector + metadata
 4. Returns success response
 
@@ -78,37 +74,52 @@ graph TB
    └── SimpleLLM: documents → answer
 4. Returns answer with sources
 
-## **::::::::: Set Env Variable :::::::::**
+## **::::::::: Set Env Variables :::::::::**
 
-```export PINECONE_API_KEY="your_pinecone_api_key"
+```bash
+export PINECONE_API_KEY="your_pinecone_api_key"
 export PINECONE_INDEX_HOST="your_index_host"
 export PINECONE_INDEX_NAME="your_index_name"
+
+# OpenAI embedding
+export OPENAI_API_KEY="your_openai_api_key"
 ```
 
 ## **::::::::: Run App :::::::::**
 
-```go
+```bash
 go run main.go
 ```
 
 ## **::::::::: Ingest Document  :::::::::::**
 
-```curl -X POST http://localhost:8080/ingest -H "Content-Type: application/json" -d '{
-"documents": [
-{
-"id": "doc1",
-"content": "Go is an open source programming language..."
-}
-]
-}'
+```bash
+curl -X POST http://localhost:8080/ingest \
+  -H "Content-Type: application/json" \
+  -d '{
+    "documents": [
+      {
+        "id": "doc1",
+        "content": "Go is an open source programming language...",
+        "embedding": []
+      }
+    ]
+  }'
 ```
 
 ## **::::::::: Ask Question  :::::::::::**
 
-```curl -X POST http://localhost:8080/query
--H "Content-Type: application/json"
--d '{
-"question": "What is Go programming?",
-"top_k": 3
-}
+```bash
+curl -X POST http://localhost:8080/query \
+  -H "Content-Type: application/json" \
+  -d '{
+    "question": "What is Go programming?",
+    "top_k": 3
+  }'
+```
+
+## **::::::::: Health Check :::::::::::**
+
+```bash
+curl http://localhost:8080/health
 ```

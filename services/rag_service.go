@@ -25,7 +25,7 @@ func NewRAGService(embedder *OpenAIEmbedder, store *VectorStore, llm *SimpleLLM)
 }
 
 func (r *RAGService) Query(request models.QueryRequest) (*models.QueryResponse, error) {
-	fmt.Printf("🔍 Processing question: %s\n", request.Question)
+	fmt.Printf(">>> Processing question: %s\n", request.Question)
 
 	embedding, err := r.Embedder.CreateEmbedding(request.Question)
 	if err != nil {
@@ -42,7 +42,7 @@ func (r *RAGService) Query(request models.QueryRequest) (*models.QueryResponse, 
 		return nil, fmt.Errorf("search failed: %v", err)
 	}
 
-	fmt.Printf("📚 Found %d relevant documents\n", len(documents))
+	fmt.Printf(">>>>> Found %d relevant documents\n", len(documents))
 
 	answer := r.LLM.GenerateResponse(request.Question, documents)
 
@@ -53,7 +53,7 @@ func (r *RAGService) Query(request models.QueryRequest) (*models.QueryResponse, 
 }
 
 func (r *RAGService) Ingest(request models.IngestionRequest) error {
-	fmt.Printf("📥 Ingesting %d documents...\n", len(request.Documents))
+	fmt.Printf(">>>>>>> Ingesting %d documents...\n", len(request.Documents))
 
 	for i := range request.Documents {
 
@@ -69,6 +69,6 @@ func (r *RAGService) Ingest(request models.IngestionRequest) error {
 		return fmt.Errorf("failed to store documents: %v", err)
 	}
 
-	fmt.Println("✅ Documents ingested successfully!")
+	fmt.Println(">>>>> Documents ingested successfully!")
 	return nil
 }

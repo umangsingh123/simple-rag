@@ -30,7 +30,7 @@ func main() {
 
 	// 2. Initialize Services
 	fmt.Println("2. ::::::::::  Initializing services...")
-	//https://developer-quickstart-go-ach4dab.svc.aped-4627-b74a.pinecone.io
+
 	pineconeService := services.NewVectorStore(pc, "rag-demo-ach4dab.svc.aped-4627-b74a.pinecone.io")
 	fmt.Println("-->> Connected to Pinecone index <<--")
 	//embedder := services.NewLlamaEmbedder()

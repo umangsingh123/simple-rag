@@ -6,7 +6,7 @@ import (
 	"simple-rag/models"
 
 	"github.com/pinecone-io/go-pinecone/v4/pinecone"
-	"google.golang.org/protobuf/types/known/structpb"
+	"google.golang.org/protobuf/types/known/structpb" //Protocol Buffers for metadata handling (required by Pinecone SDK)
 )
 
 type VectorStore struct {
@@ -34,7 +34,7 @@ func (v *VectorStore) Upsert(documents []models.Document) error {
 	// Create vectors using the WORKING pinecone.Vector struct
 	vectors := make([]pinecone.Vector, 0, len(documents))
 	for i, doc := range documents {
-		fmt.Printf("📄 Document %d: ID=%s, Embedding=%d dimensions\n", i+1, doc.ID, len(doc.Embedding))
+		fmt.Printf(">>>>> Document %d: ID=%s, Embedding=%d dimensions\n", i+1, doc.ID, len(doc.Embedding))
 
 		// Create metadata using structpb
 		metadata, err := structpb.NewStruct(map[string]interface{}{
@@ -45,6 +45,7 @@ func (v *VectorStore) Upsert(documents []models.Document) error {
 		}
 
 		// Create a copy of embedding for pointer
+		//Pinecone SDK requires *[]float32 for Values field
 		embeddingCopy := make([]float32, len(doc.Embedding))
 		copy(embeddingCopy, doc.Embedding)
 
@@ -67,7 +68,7 @@ func (v *VectorStore) Upsert(documents []models.Document) error {
 		return fmt.Errorf("failed to upsert vectors: %v", err)
 	}
 
-	fmt.Printf("✅ Successfully upserted %d vectors\n", len(vectors))
+	fmt.Printf("::: Successfully upserted %d vectors\n", len(vectors))
 	return nil
 }
 
@@ -84,7 +85,7 @@ func (v *VectorStore) Search(embedding []float32, topK int) ([]models.Document, 
 		return nil, err
 	}
 
-	fmt.Printf("🔍 Searching with %d-dimensional vector, topK=%d\n", len(embedding), topK)
+	fmt.Printf(">>>>>>>> Searching with %d-dimensional vector <<<<<<<, topK=%d\n", len(embedding), topK)
 
 	// Use SearchRecords with the correct structure
 	res, err := index.SearchRecords(ctx, &pinecone.SearchRecordsRequest{
@@ -100,7 +101,7 @@ func (v *VectorStore) Search(embedding []float32, topK int) ([]models.Document, 
 		return nil, err
 	}
 
-	fmt.Printf("📊 Search found %d matches\n", len(res.Result.Hits))
+	fmt.Printf(">>>>> Search found %d matches\n", len(res.Result.Hits))
 
 	documents := make([]models.Document, len(res.Result.Hits))
 	for i, hit := range res.Result.Hits {

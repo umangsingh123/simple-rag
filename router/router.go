@@ -16,6 +16,7 @@ type Router struct {
 	mux *http.ServeMux
 }
 
+// Dependency Injection: Takes models.RAGService interface
 func NewRouter(ragService models.RAGService) *Router {
 	mux := http.NewServeMux()
 
@@ -34,6 +35,8 @@ func NewRouter(ragService models.RAGService) *Router {
 	return &Router{mux: mux}
 }
 
+// Accessor method: Provides the underlying http.Handler interface
+// Links to server package: This method is called in server.go
 func (r *Router) GetHandler() http.Handler {
 	return r.mux
 }
