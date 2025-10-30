@@ -2,6 +2,11 @@
 
 A production-ready Retrieval-Augmented Generation (RAG) system built in Go that allows you to store documents and ask questions based on their content.
 
+**Have the Api KEYS in env variable**
+
+* **PINECONE_API_KEY**
+* **OPENAI_API_KEY**
+
 ## ::::::::: Architecture Overview ::::::::::
 
 ```mermaid
