@@ -99,9 +99,8 @@ curl -X POST http://localhost:8080/ingest \
   -d '{
     "documents": [
       {
-        "id": "doc1",
-        "content": "Go is an open source programming language...",
-        "embedding": []
+        "id": "rag-technique-1",
+        "content": "Retrieval-Augmented Generation (RAG) is an AI framework that improves the quality of large language model (LLM) responses by grounding the model on external sources of knowledge. This reduces hallucinations and keeps the model updated with current information without requiring retraining."
       }
     ]
   }'
