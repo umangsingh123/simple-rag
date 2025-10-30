@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"simple-rag/router"
 	"simple-rag/server"
 	"simple-rag/services"
@@ -18,11 +19,15 @@ import (
 func main() {
 	fmt.Println(":::::::::: Starting Simple RAG Server...::::::::::")
 	fmt.Println("=================================")
+	pineconeApiKey := os.Getenv("PINECONE_API_KEY")
 
+	if pineconeApiKey == "" {
+		log.Fatal("PINECONE_API_KEY environment variable is required")
+	}
 	// 1. Initialize Pinecone
 	fmt.Println("1. :::::::::: Setting up Pinecone...::::::::::")
 	pc, err := pinecone.NewClient(pinecone.NewClientParams{
-		ApiKey: "",
+		ApiKey: pineconeApiKey,
 	})
 	if err != nil {
 		log.Fatalf(":::::::::: Failed to create Pinecone client: %v", err)

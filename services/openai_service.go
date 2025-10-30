@@ -5,7 +5,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -16,10 +18,14 @@ type OpenAIEmbedder struct {
 }
 
 func NewOpenAIEmbedder() *OpenAIEmbedder {
+	apiKey := os.Getenv("OPENAI_API_KEY")
+	if apiKey == "" {
+		log.Fatal("OPENAI_API_KEY environment variable is required")
+	}
 	return &OpenAIEmbedder{
 		BaseURL: "https://api.openai.com/v1",
 		Client:  &http.Client{Timeout: 30 * time.Second},
-		APIKey:  "",
+		APIKey:  apiKey,
 	}
 }
 
